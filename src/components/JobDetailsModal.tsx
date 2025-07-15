@@ -7,7 +7,7 @@ interface JobDetailsModalProps {
   job: Job;
   onClose: () => void;
   onApply: () => void;
-  canApply: boolean;
+  canApply: boolean | null;
   setShowLoginModal: (val: boolean) => void;
 }
 
@@ -75,7 +75,7 @@ const JobDetailsModal: React.FC<JobDetailsModalProps> = ({
 
         <p className="mb-6 whitespace-pre-line">{job.description}</p>
 
-        {user && user.role !== "employer" ? (
+        {user ? (
           canApply ? (
             <button
               onClick={onApply}
@@ -88,17 +88,17 @@ const JobDetailsModal: React.FC<JobDetailsModalProps> = ({
               {hasApplied ? "Already Applied" : "Apply Now"}
             </button>
           ) : (
-            <button
-              onClick={() => {
-                onClose();
-                setShowLoginModal(true);
-              }}
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-            >
-              Login To Proceed
-            </button>
+            null
           )
-        ) : null}
+        ) : <button
+          onClick={() => {
+            onClose();
+            setShowLoginModal(true);
+          }}
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Login To Proceed
+        </button>}
       </div>
     </div>
   );

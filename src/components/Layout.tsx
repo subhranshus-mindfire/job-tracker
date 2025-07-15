@@ -41,7 +41,7 @@ export default function Layout() {
           className={`w-full md:flex md:items-center md:justify-between md:space-x-6 ${mobileMenuOpen ? "block" : "hidden"
             }`}
         >
-          <div className="flex flex-col md:flex-row md:items-center md:gap-5 mt-4 md:mt-0 text-xl font-medium text-gray-600">
+          <div className="flex flex-col md:flex-row md:items-center md:gap-5 mt-4 md:mt-0 text-base md:text-xl font-medium text-gray-600">
             <Link to="/" className="py-2 md:py-0 text-center">
               Home
             </Link>
@@ -59,13 +59,13 @@ export default function Layout() {
             )}
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center gap-3 mt-4 md:mt-0 text-xl">
+          <div className="flex flex-col md:flex-row md:items-center gap-3 mt-4 md:mt-0 text-base md:text-xl">
             {user ? (
               <>
-                <span className="text-xl md:text-xl text-center">Hi, {user.name}</span>
+                <span className=" md:text-xl text-center">Hi, {user.name}</span>
                 <button
                   onClick={logOut}
-                  className="border-2 bg-blue-700 text-white px-3 py-2 rounded-full hover:border-blue-800 text-xl"
+                  className="border-2 bg-blue-700 text-white px-3 py-2 rounded-full hover:border-blue-800 "
                 >
                   Logout
                 </button>

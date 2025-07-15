@@ -102,8 +102,6 @@ export default function MyApplications() {
                 Location:{" "}
                 {app.job.job_type === "Remote" ? "Remote" : app.job.location}
               </p>
-
-
             </div>
           );
         })}
