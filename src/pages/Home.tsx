@@ -144,7 +144,7 @@ export default function Home() {
           job={selectedJob}
           onClose={() => setSelectedJob(null)}
           onApply={handleApply}
-          canApply={!!user}
+          canApply={(user && user!.role != "employer")}
           setShowLoginModal={setShowLoginModal}
         />
       )}

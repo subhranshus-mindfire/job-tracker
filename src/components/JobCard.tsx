@@ -11,7 +11,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onView }) => {
   const logoUrl = `https://img.logo.dev/${companyName}.com?token=pk_U5pZvgj7Ty2ZWkob2YkBig`;
 
   return (
-    <div className="relative bg-white p-6 rounded-lg shadow hover:shadow-md transition flex flex-col gap-2">
+    <div className="relative bg-white p-6 rounded-lg shadow-lg hover:shadow-md transition flex flex-col gap-2">
       <div className="absolute top-4 right-4">
         <img
           src={logoUrl}
