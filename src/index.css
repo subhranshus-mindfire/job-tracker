@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+body {
+  font-family: 'Poppins', Courier, monospace;
+}
+
+.register input,
+button {
+  border-radius: 50px;
+}
+
+button {
+  cursor: pointer;
+}
