@@ -4,6 +4,8 @@ import JobCard from "../components/JobCard";
 import JobDetailsModal from "../components/JobDetailsModal";
 import { useAuth } from "../context/AuthContext";
 import { useOutletContext } from "react-router-dom";
+import { useAlert } from "../context/AlertContext";
+import type { AxiosError } from "axios";
 
 interface Employer {
   user: User;
@@ -42,6 +44,8 @@ export default function Home() {
 
   const { setShowLoginModal } = useOutletContext<LayoutContextType>();
 
+  const { showAlert } = useAlert()
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -62,13 +66,19 @@ export default function Home() {
 
   const handleApply = async () => {
     if (!selectedJob || !user) return;
-    await api.post(`/applications`, {
-      applicant: user.role_id,
-      job: selectedJob._id,
-      status: "applied",
-    });
-    alert("Applied successfully!");
-    setSelectedJob(null);
+    try {
+      await api.post(`/applications`, {
+        applicant: user.role_id,
+        job: selectedJob._id,
+        status: "applied",
+      });
+      showAlert("Applied successfully!", "success");
+      setSelectedJob(null);
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      if (typeof error.response?.data?.message == "string")
+        showAlert(error.response?.data?.message || "Something went wrong.", "error");
+    }
   };
 
   const filteredJobs = jobs

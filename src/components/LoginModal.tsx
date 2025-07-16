@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom"
+import { useAlert } from "../context/AlertContext";
 
 
 interface LoginModalProps {
@@ -18,6 +19,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, setShowRegisterModal }
 
   const navigate = useNavigate()
 
+  const { showAlert } = useAlert()
+
 
   const handleLogin = async () => {
     setLoading(true);
@@ -26,9 +29,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, setShowRegisterModal }
       await login(email, password);
       onClose();
       navigate("/")
+      showAlert("Logged In Succesfully", "success")
     } catch (err) {
       console.log(err)
-      setError("Invalid credentials");
+      // setError("Invalid credentials");
+      showAlert("Invalid credentials", "error")
     } finally {
       setLoading(false);
     }

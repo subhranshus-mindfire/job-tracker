@@ -4,6 +4,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import JobModal from "./JobModal";
 import RegisterModal from "./RegisterModal";
+import Alert from "./Alert";
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -24,6 +25,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Alert />
       <nav className="bg-white text-blue-700 px-4 py-5 md:px-6 md:py-4 flex flex-col md:flex-row justify-between items-center">
         <div className="flex w-full md:w-auto justify-between items-center">
           <Link to="/" className="text-3xl font-bold md:me-6">

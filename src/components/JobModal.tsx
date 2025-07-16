@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import api from "../services/api";
-import { AxiosError } from "axios";
+import { useAlert } from "../context/AlertContext";
 
 interface JobModalProps {
   onClose: () => void;
@@ -14,6 +14,8 @@ const JobModal: React.FC<JobModalProps> = ({ onClose, employerId }) => {
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const { showAlert } = useAlert()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,13 +36,13 @@ const JobModal: React.FC<JobModalProps> = ({ onClose, employerId }) => {
       const res = await api.post("/jobs", payload);
 
       if (res.data.success) {
-        setSuccess("Job posted successfully!");
+        showAlert("Job Added", "success")
       } else {
-        setError("Failed to post job.");
+        showAlert("Failed to Post Job.", "error")
       }
-    } catch (err) {
-      const error = err as AxiosError<{ message: string }>;
-      setError(error.response?.data?.message || "Something went wrong.");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      if (err != undefined) showAlert(err?.response?.data.message, "error")
     }
   };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import api from "../services/api";
 import { AxiosError } from "axios";
+import { useAlert } from "../context/AlertContext";
 
 interface RegisterModalProps {
   onClose: () => void;
@@ -18,11 +19,14 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose, setShowLoginModa
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const { showAlert } = useAlert()
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -51,14 +55,18 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose, setShowLoginModa
             user: userId,
           });
         }
-
-        setSuccess("Registered successfully! You can now log in.");
+        onClose()
+        showAlert("Registered successfully!", "success");
+        setTimeout(() => {
+          showAlert("Please Login to Continue", "success")
+        }, 3000);
       } else {
-        setError("Registration failed.");
+        showAlert("Registration failed!", "error");
       }
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
-      setError(error.response?.data?.message || "Something went wrong.");
+      if (typeof error.response?.data?.message == "string")
+        showAlert(error.response?.data?.message || "Something went wrong.", "error");
     }
   };
 
@@ -101,7 +109,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ onClose, setShowLoginModa
           <label className="block mb-2 font-semibold">Phone</label>
           <input
             type="tel"
-            placeholder="e.g. +91 9876543210"
+            placeholder="e.g. +91 1234567890"
             className="w-full mb-4 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}

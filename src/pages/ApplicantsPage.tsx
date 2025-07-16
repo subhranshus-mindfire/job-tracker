@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
+import { useAlert } from "../context/AlertContext";
 
 interface Applicant {
   _id: string;
@@ -25,6 +26,7 @@ export default function ApplicantsPage() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const { showAlert } = useAlert()
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
@@ -50,6 +52,7 @@ export default function ApplicantsPage() {
             : application
         )
       );
+      showAlert("Status Updated", "success")
     } catch (err) {
       console.error(err);
     }
